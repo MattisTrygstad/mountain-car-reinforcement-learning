@@ -9,7 +9,7 @@ def main():
     for x in range(1000):
         env.execute_action(Action.FORWARD)
 
-    env.animate()
+    env.animate(env.position_sequence, False)
 
 
 if __name__ == "__main__":

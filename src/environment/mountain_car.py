@@ -2,6 +2,7 @@
 
 from copy import deepcopy
 from math import cos, pi
+from pathlib import Path
 from random import choice, uniform
 
 from matplotlib import pyplot as plt
@@ -58,10 +59,8 @@ class MountainCar(Environment):
         ax.add_patch(plt.Circle((self.position, self.__compute_y(self.position)), 0.05, color='grey'))
         plt.show()
 
-    def animate(self) -> None:
+    def animate(self, position_sequence: list, save: bool = False,) -> None:
         # plt.style.use('ggplot')
-        position_sequence = deepcopy(self.position_sequence)
-        self.reset()
 
         fig, ax = plt.subplots(figsize=(12, 6))
         ax.plot(self.xs, self.ys)
@@ -75,7 +74,11 @@ class MountainCar(Environment):
 
         animation = FuncAnimation(fig, __update_animation, interval=10, frames=len(position_sequence), repeat=False)
 
-        plt.draw
+        if save:
+            Path("animations").mkdir(parents=True, exist_ok=True)
+            animation.save('animations/output.mp4')
+
+        plt.draw()
         plt.show()
 
     def __get_start_position(self) -> float:
